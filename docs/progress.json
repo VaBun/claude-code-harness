@@ -1,6 +1,6 @@
 {
-  "current_task": "Capability map and talk preparation",
-  "status": "in_progress",
+  "current_task": "March 2026 feature update",
+  "status": "completed",
   "completed_steps": [
     "Created directory structure with three zones (project / .claude / .github)",
     "Copied harness-init skill files (SKILL.md, analyze.py, command templates)",
@@ -11,19 +11,20 @@
     "Copied harness-protocol.md to docs/",
     "Wrote docs/changelog.md with current CC features (March 2026)",
     "Created 3 ADRs (self-reference, english-only, single-readme)",
-    "Wrote README.md as single guide (17 topics)",
+    "Wrote README.md as single guide (18 topics)",
     "Created .github/workflows/check-updates.yml (weekly cron)",
     "Added .gitignore for auto-generated files",
     "Pushed to GitHub as claude-code-harness (public)",
     "Consistency audit: fixed stale progress.json, aligned dangerous cmd blocker across 3 files, updated ADR-002",
     "Created docs/capability-map.md (built-in CC vs harness tracking)",
     "Updated /update command to check capability-map for migrations",
-    "Raised file count limit from 25 to 30"
+    "Raised file count limit from 25 to 30",
+    "March 2026 feature update: +14 new features, +5 section updates, README now 18 topics"
   ],
   "next_steps": [
-    "Write talk script (outside repo)",
     "Verify GitHub Actions workflow triggers correctly",
-    "Test harness-init skill by installing and running in a test project"
+    "Test harness-init skill by installing and running in a test project",
+    "Update harness-init templates with new hook events and cloud patterns"
   ],
   "blockers": [],
   "decisions_made": [

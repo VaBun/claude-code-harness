@@ -57,12 +57,22 @@ Shell commands that execute at lifecycle points. Unlike CLAUDE.md instructions (
 | `Notification` | Claude needs input | No |
 | `PermissionRequest` | Permission dialog appears | Yes |
 | `Stop` | Claude finishes responding | No |
+| `StopFailure` | API error (rate limit, auth) | No |
+| `TaskCreated` | Subagent task spawned | No |
+| `PostCompact` | After `/compact` completes | No |
+| `Elicitation` / `ElicitationResult` | MCP structured input | Yes |
 | `ConfigChange` | Settings file modified | Yes |
 | `FileChanged` / `CwdChanged` | Environment changes | No |
 
 **Hook types:** `command` (shell), `prompt` (single-turn Claude eval), `agent` (multi-turn subagent), `http` (POST to endpoint).
 
+**Conditional hooks:** Use the `if` field with permission rule syntax to run hooks only when conditions match.
+
 **Matcher patterns:** `Edit|Write`, `Bash(git commit*)`, `mcp__github__*`.
+
+**Cloud guard (pattern):** Check `CLAUDE_CODE_REMOTE=true` in SessionStart hooks to differentiate local vs cloud web sessions.
+
+**Org policy:** Use `managed-settings.d/` drop-in directory for distributing hook policies across teams.
 
 **Essential hook: Dangerous Command Blocker.** PreToolUse intercepts `rm -rf`, `git reset --hard`, `git push --force`. Takes 2 minutes to set up, prevents catastrophic accidents.
 
@@ -72,14 +82,13 @@ Shell commands that execute at lifecycle points. Unlike CLAUDE.md instructions (
 
 ## 3. Commands — Slash Commands
 
-Markdown files in `.claude/commands/` invoked via `/command-name`. Each file is a natural-language prompt with optional `$ARGUMENTS` placeholder.
+Markdown files in `.claude/commands/` invoked via `/command-name`. Each file is a natural-language prompt with optional `$ARGUMENTS` placeholder. Commands and skills now share the same `/slash-command` interface — skills (with SKILL.md frontmatter) are preferred for anything beyond a simple prompt.
 
-```
-.claude/commands/plan.md      → /plan add MCP section
-.claude/commands/review.md    → /review
-```
+**Built-in commands:** `/simplify` (parallel code review agents), `/batch` (same prompt across many files).
 
 **Scopes:** project (`.claude/commands/`) or user (`~/.claude/commands/`).
+
+**Scripted usage:** `claude --bare -p "..."` skips hooks/LSP/plugins for CI pipelines.
 
 > See [`.claude/commands/`](.claude/commands/) — 6 commands: `/plan`, `/review`, `/catchup`, `/checkpoint`, `/audit`, `/update`. Each serves a real workflow in this repo.
 
@@ -113,7 +122,7 @@ user-invocable: true               # optional: show in /menu
 
 ## 5. Agents — Subagents
 
-Custom agents with isolated context windows, restricted tools, and specific models. Up to 10 simultaneous per session.
+Custom agents with isolated context windows ("context firewalls"), restricted tools, and specific models. Up to 10 simultaneous per session.
 
 **Definition:** `.claude/agents/name.md` with YAML frontmatter:
 ```yaml
@@ -162,25 +171,41 @@ Model Context Protocol connects Claude Code to external services (GitHub, Linear
 
 ---
 
-## 9. Scheduled Tasks
+## 9. Scheduled Tasks & Async Execution
 
-Three approaches to recurring automation:
+Five approaches to deferred/recurring work:
 
 | Method | Scope | Min interval | Requires |
 |--------|-------|-------------|----------|
 | `/loop` | Session | 1 minute | CLI open |
 | Desktop Tasks | Local | 1 minute | Desktop app |
 | GitHub Actions | Repository | N/A (cron) | GitHub repo |
+| Dispatch | Phone→Desktop | On-demand | Desktop app + mobile |
+| Cloud (`--remote`) | Cloud VM | On-demand | claude.ai account |
 
 **`/loop`** example: `/loop 5m check if deployment finished`
 
 **CronCreate** tool: schedule prompts directly in conversation. Standard 5-field cron, local timezone. Auto-expires after 3 days.
 
+**Dispatch:** assign a task from your phone, walk away, return to finished work on desktop. **Cloud:** `claude --remote "task"` runs on Anthropic-managed VMs — no local machine needed.
+
 > See [`.github/workflows/check-updates.yml`](.github/workflows/check-updates.yml) — weekly cron that checks Anthropic's changelog and creates Issues for new features.
 
 ---
 
-## 10. Worktrees — Parallel Work
+## 10. Claude Code on the Web
+
+Run Claude Code on Anthropic-managed cloud VMs — no local machine needed.
+
+**Launch:** `claude --remote "implement the migration"` from terminal, or start a session at claude.ai/code.
+
+**Auto-fix PRs:** Claude subscribes to a GitHub PR, automatically responds to CI failures and review comments. Pushes fixes for clear cases, asks before acting on ambiguous ones. Requires the Claude GitHub App.
+
+**Session handoff:** `/teleport` pulls a web session into your local terminal (branch + conversation). `/remote-control` bridges a terminal session to the web for cross-device continuation.
+
+---
+
+## 11. Worktrees — Parallel Work
 
 Git worktrees give each agent an isolated copy of the repo. No file conflicts.
 
@@ -193,34 +218,43 @@ claude --worktree bugfix-db       # Terminal 2 (parallel)
 
 **Subagent integration:** Set `isolation: worktree` in agent frontmatter for automatic worktree creation.
 
+**Monorepos:** `worktree.sparsePaths` setting enables git sparse-checkout — agents only check out paths they need.
+
 ---
 
-## 11. Auto Mode
+## 12. Auto Mode & Autonomy
 
 AI-driven permission decisions (March 2026, research preview). A classifier model reviews each action before execution, detecting risky behavior and prompt injection attempts.
+
+**Permission relay (`--channels`):** channel servers forward approval prompts to your phone — enables truly async autonomous operation.
+
+**Computer use:** Desktop app (macOS, research preview) can directly operate the computer — open files, click buttons, use browser — as fallback when no MCP connector is available.
 
 **Recommendation:** Use in sandboxed environments first. The classifier's behavior is not fully transparent — don't trust it with production credentials yet.
 
 ---
 
-## 12. Voice Mode
+## 13. Voice Mode
 
 `/voice` activates push-to-talk. Hold spacebar → speak → release to send. 20 languages supported. Free transcription.
 
 ---
 
-## 13. /effort — Adaptive Reasoning
+## 14. /effort — Adaptive Reasoning
 
-`/effort low` (fast/cheap) → `medium` (default) → `high` → `max` (deepest reasoning, Opus only). Higher effort doesn't always help — medium is often optimal for coding.
+`/effort low` (fast/cheap) → `medium` (default) → `high` → `max` (deepest reasoning, Opus only) → `auto` (model picks). Higher effort doesn't always help — medium is often optimal for coding.
 
 ---
 
-## 14. Context Management
+## 15. Context Management
 
-Two strategies for managing the context window:
+Three built-in tools for managing the context window:
 
 - **`/clear`** — hard reset. Wipes ALL history. CLAUDE.md auto-reloads. Use between unrelated tasks.
 - **`/compact`** — soft compression. Condenses context into summary, preserves essential thread. Use when context is partially relevant.
+- **`/context`** — diagnostic. Shows which tools consume the most context, detects memory bloat, issues capacity warnings.
+
+**Auto-memory:** persistent file-based memory across sessions. Configure storage location with `autoMemoryDirectory` in `settings.json` (useful for monorepos). Memory files include timestamps for staleness detection.
 
 **Rule of thumb:** if less than 50% of prior context is relevant, `/clear`. Otherwise `/compact`.
 
@@ -228,7 +262,7 @@ Two strategies for managing the context window:
 
 ---
 
-## 15. Workflow Patterns
+## 16. Workflow Patterns
 
 **Plan → Execute → Review:** Use plan mode for non-trivial tasks. Explore without changes → plan → implement → verify → commit.
 
@@ -238,11 +272,13 @@ Two strategies for managing the context window:
 
 **Background Swarm:** N isolated tasks → N branches → N agents → N PRs. Condition: tasks don't touch same files, each is independently verifiable.
 
+**Plan Locally, Execute Remotely:** Start in `--permission-mode plan` to collaborate on strategy with no file writes. When ready, fire `claude --remote "Execute the plan"` to run on cloud VMs. Multiple `--remote` calls give each task its own isolated VM.
+
 **Document & Clear:** After 30+ minutes, `/checkpoint` → `/clear` → new session reads progress.json + decisions/. Prevents context decay.
 
 ---
 
-## 16. Harness Engineering — 5 Layers
+## 17. Harness Engineering — 5 Layers
 
 The discipline of building scaffolding around AI agents. Not the agent, not the code — the environment.
 
@@ -260,14 +296,14 @@ The discipline of building scaffolding around AI agents. Not the agent, not the 
 └─────────────────────────────────────────────────┘
 ```
 
-**Key insight:** The agent is not the hard part — the harness is. LangChain improved agent accuracy from 52.8% to 66.5% by changing only the harness, not the model.
+**Key insight:** The agent is not the hard part — the harness is. LangChain improved agent accuracy from 52.8% to 66.5% by changing only the harness, not the model. Anthropic's own engineering blog describes subagents as "context firewalls" and recommends declarative intent specs over low-level instructions.
 
 > See [`docs/harness-protocol.md`](docs/harness-protocol.md) — full 5-layer protocol specification.
 > See [`docs/capability-map.md`](docs/capability-map.md) — what's built into CC vs what the harness adds. Updated via `/update`; tracks feature migrations over time.
 
 ---
 
-## 17. Decision Log (ADR)
+## 18. Decision Log (ADR)
 
 Architecture Decision Records capture **why** choices were made. Critical for multi-session work: new sessions read decisions instead of re-debating them.
 

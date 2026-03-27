@@ -9,7 +9,7 @@ README.md is the single guide. No separate docs/guide/ directory. Each README se
 ## Rationale
 - Expressive minimalism: pack knowledge densely by folding it into working files, not spreading it across docs.
 - The working files ARE the examples. Separate "example" directories duplicate without adding value.
-- A single README with 17 sections is scannable. 14 separate files require navigation overhead.
+- A single README with 18 sections is scannable. 14 separate files require navigation overhead.
 - Inspired by conceptualization theory: README is the "grammar" (rules of combination), .claude/ files are the "alphabet" (primitives). Grammar + alphabet is sufficient — no need for a separate textbook.
 
 ## Consequences
