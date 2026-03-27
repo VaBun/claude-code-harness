@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(python3 *)",
+      "Bash(find *)",
+      "Bash(wc *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json, sys, pathlib; [json.loads(f.read_text()) for f in pathlib.Path('.').rglob('*.json') if f.stat().st_size > 0]; print('JSON validation passed')\"",
+            "blocking": true
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(rm -rf*)|Bash(git reset --hard*)|Bash(git push --force*)|Bash(git clean -f*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'BLOCKED: Dangerous command detected. Use safer alternatives.' >&2 && exit 2",
+            "blocking": true
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Reminder: run /review before committing'",
+            "blocking": false
+          }
+        ]
+      }
+    ]
+  }
+}

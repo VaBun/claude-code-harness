@@ -1,0 +1,96 @@
+name: Check for Claude Code Updates
+
+on:
+  schedule:
+    - cron: '17 9 * * 1'  # Every Monday at 9:17 AM UTC (off-round to reduce load)
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Anthropic changelog for updates
+        id: check
+        run: |
+          python3 << 'SCRIPT'
+          import urllib.request
+          import hashlib
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          URLS = [
+              "https://docs.anthropic.com/en/docs/claude-code/changelog",
+              "https://docs.anthropic.com/en/docs/claude-code/overview",
+          ]
+
+          HASH_FILE = ".github/.last-check-hash"
+
+          # Fetch and hash current content
+          combined = ""
+          for url in URLS:
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "claude-code-tips-bot/1.0"})
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      combined += resp.read().decode("utf-8", errors="replace")
+              except Exception as e:
+                  print(f"Warning: Could not fetch {url}: {e}")
+
+          current_hash = hashlib.sha256(combined.encode()).hexdigest()
+
+          # Compare with stored hash
+          previous_hash = ""
+          hash_path = Path(HASH_FILE)
+          if hash_path.exists():
+              previous_hash = hash_path.read_text().strip()
+
+          if current_hash == previous_hash:
+              print("No changes detected.")
+              with open(os.environ.get("GITHUB_OUTPUT", "/dev/null"), "a") as f:
+                  f.write("changed=false\n")
+          else:
+              print(f"Changes detected! Previous: {previous_hash[:12]}... Current: {current_hash[:12]}...")
+              hash_path.parent.mkdir(parents=True, exist_ok=True)
+              hash_path.write_text(current_hash)
+              with open(os.environ.get("GITHUB_OUTPUT", "/dev/null"), "a") as f:
+                  f.write("changed=true\n")
+          SCRIPT
+
+      - name: Create issue if changes detected
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          gh issue create \
+            --title "Potential new Claude Code features detected ($(date +%Y-%m-%d))" \
+            --body "$(cat << 'EOF'
+          The weekly changelog check detected changes on Anthropic's documentation pages.
+
+          **Action needed:**
+          1. Run `/update` in Claude Code to identify specific changes
+          2. Update `docs/changelog.md` with new features
+          3. Update relevant README.md sections
+          4. Run `/audit` to verify completeness
+
+          **Pages monitored:**
+          - https://docs.anthropic.com/en/docs/claude-code/changelog
+          - https://docs.anthropic.com/en/docs/claude-code/overview
+
+          *This issue was created automatically by the weekly check-updates workflow.*
+          EOF
+          )" \
+            --label "update"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit updated hash
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/.last-check-hash
+          git commit -m "chore: update changelog check hash" || true
+          git push || true
