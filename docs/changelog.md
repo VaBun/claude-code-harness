@@ -65,6 +65,9 @@ Up to 10 simultaneous subagents per session. Custom subagents via Markdown with 
 
 ## 2025-2026 (Cumulative)
 
+### .claude/rules/ Directory (established feature, documented 2025-2026)
+Modular instruction files as an alternative to monolithic CLAUDE.md. Each `.md` file covers one topic. Optional `paths:` YAML frontmatter for path-scoped rules (glob patterns, loaded on demand). Discovered recursively, supports symlinks. User-level variant at `~/.claude/rules/`. Preferred over subdirectory CLAUDE.md files for path-scoped modular instructions.
+
 ### Skills 2.0
 Two categories: Capability Uplift (fill model gaps, limited lifespan) and Workflow/Preference (automation, compliance, longer value). Shell commands can inject live data into skill prompts.
 

@@ -85,6 +85,7 @@
 |---|---|---|---|
 | Project constitution | CLAUDE.md (auto-read on session start) | — | native |
 | Hierarchical context | Subdirectory CLAUDE.md files (child adds, doesn't repeat parent) | — | native |
+| Modular rules | `.claude/rules/*.md` (path-scoped via `paths:` frontmatter, recursive, symlinks) | — | native |
 | Slash commands | `.claude/commands/*.md` mechanism (now merged with skills interface) | 6 project-specific commands | extended |
 | Skills | `.claude/skills/*/SKILL.md` mechanism (preferred for non-trivial prompts) | `harness-init` skill (deploys harness to other projects) | extended |
 | Architecture decisions | — | `docs/decisions/` (ADR pattern) | harness |
@@ -97,7 +98,7 @@
 
 | Status | Count | Examples |
 |---|---|---|
-| native | ~28 | /clear, /compact, /context, /effort, /voice, auto mode, --channels, computer use, Agent Teams, worktrees, sparsePaths, MCP, plugins, cron, --remote, Dispatch, auto-fix PRs, /teleport, --bare, /simplify, /batch, auto-memory, managed-settings.d/ (partial list) |
+| native | ~29 | /clear, /compact, /context, /effort, /voice, auto mode, --channels, computer use, Agent Teams, worktrees, sparsePaths, MCP, plugins, cron, --remote, Dispatch, auto-fix PRs, /teleport, --bare, /simplify, /batch, auto-memory, managed-settings.d/ (partial list) |
 | harness | ~12 | /catchup, /checkpoint, /audit, /update, dangerous cmd blocker, ADR, progress.json, golden rules |
 | extended | ~6 | /plan (overridden), /review (harness extends /simplify), /batch (extended), commands (6 custom), skills (harness-init), agents (reviewer, updater) |
 | deprecated | 0 | — (none yet; will appear as CC evolves) |
@@ -108,5 +109,5 @@
 
 | Date | Change |
 |---|---|
-| 2026-03-27 | Major update: +12 native capabilities (cloud execution, computer use, Dispatch, --channels, /context, /simplify, /batch, --bare, auto-memory, managed-settings.d, sparsePaths, auto-fix PRs). Total native: ~28. |
+| 2026-03-27 | Major update: +13 native capabilities (cloud execution, computer use, Dispatch, --channels, /context, /simplify, /batch, --bare, auto-memory, managed-settings.d, sparsePaths, auto-fix PRs, .claude/rules/). Total native: ~29. |
 | 2026-03 | Initial mapping. CC: ~16 native capabilities. Harness: ~13 additions, ~5 extensions. |

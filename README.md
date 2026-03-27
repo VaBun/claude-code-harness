@@ -38,7 +38,9 @@ The first file Claude reads in any session. Contains: project overview, key comm
 **What to include:** build/test/lint commands, architectural constraints, naming conventions, what NOT to do.
 **What to skip:** standard language conventions, things linters catch, file-by-file descriptions.
 
-**Hierarchy:** root `CLAUDE.md` for global context. Subdirectory `CLAUDE.md` files for module-specific rules. Child files don't repeat parent — they add specifics.
+**Hierarchy:** root `CLAUDE.md` for global context. Subdirectory `CLAUDE.md` files for module-specific rules (loaded on demand). Child files don't repeat parent — they add specifics.
+
+**`.claude/rules/` directory:** for path-scoped modular instructions. Each `.md` file covers one topic. Add `paths:` YAML frontmatter (e.g., `paths: ["src/api/**/*.ts"]`) to load rules only when Claude reads matching files. Without frontmatter — loaded at launch. Discovered recursively, supports symlinks, user-level variant at `~/.claude/rules/`.
 
 > See [`./CLAUDE.md`](CLAUDE.md) — this repo's own constitution.
 
@@ -66,13 +68,9 @@ Shell commands that execute at lifecycle points. Unlike CLAUDE.md instructions (
 
 **Hook types:** `command` (shell), `prompt` (single-turn Claude eval), `agent` (multi-turn subagent), `http` (POST to endpoint).
 
-**Conditional hooks:** Use the `if` field with permission rule syntax to run hooks only when conditions match.
+**Matcher patterns:** `Edit|Write`, `Bash(git commit*)`, `mcp__github__*`. Hooks support conditional `if` fields using permission rule syntax.
 
-**Matcher patterns:** `Edit|Write`, `Bash(git commit*)`, `mcp__github__*`.
-
-**Cloud guard (pattern):** Check `CLAUDE_CODE_REMOTE=true` in SessionStart hooks to differentiate local vs cloud web sessions.
-
-**Org policy:** Use `managed-settings.d/` drop-in directory for distributing hook policies across teams.
+**Cloud guard (pattern):** Check `CLAUDE_CODE_REMOTE=true` in SessionStart hooks to differentiate local vs cloud sessions. **Org policy:** `managed-settings.d/` drop-in directory for distributing hook policies across teams.
 
 **Essential hook: Dangerous Command Blocker.** PreToolUse intercepts `rm -rf`, `git reset --hard`, `git push --force`. Takes 2 minutes to set up, prevents catastrophic accidents.
 
