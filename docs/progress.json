@@ -1,6 +1,6 @@
 {
-  "current_task": "Initial repository creation",
-  "status": "completed",
+  "current_task": "Capability map and talk preparation",
+  "status": "in_progress",
   "completed_steps": [
     "Created directory structure with three zones (project / .claude / .github)",
     "Copied harness-init skill files (SKILL.md, analyze.py, command templates)",
@@ -11,13 +11,17 @@
     "Copied harness-protocol.md to docs/",
     "Wrote docs/changelog.md with current CC features (March 2026)",
     "Created 3 ADRs (self-reference, english-only, single-readme)",
-    "Wrote README.md as single guide (17 topics, 312 lines)",
+    "Wrote README.md as single guide (17 topics)",
     "Created .github/workflows/check-updates.yml (weekly cron)",
     "Added .gitignore for auto-generated files",
-    "Final verification: 25 files, all links valid, all JSON valid"
+    "Pushed to GitHub as claude-code-harness (public)",
+    "Consistency audit: fixed stale progress.json, aligned dangerous cmd blocker across 3 files, updated ADR-002",
+    "Created docs/capability-map.md (built-in CC vs harness tracking)",
+    "Updated /update command to check capability-map for migrations",
+    "Raised file count limit from 25 to 30"
   ],
   "next_steps": [
-    "Push to GitHub repository",
+    "Write talk script (outside repo)",
     "Verify GitHub Actions workflow triggers correctly",
     "Test harness-init skill by installing and running in a test project"
   ],
@@ -29,7 +33,9 @@
     "Three-zone structure: project files / .claude tools / .github automation",
     "Living knowledge system framing (not tips collection) to create genuine need for all tools",
     "Conceptualization theory mapping: README as grammar, .claude files as alphabet",
-    "harness-init deploys 5 generic commands; /update is repo-specific, not included in skill templates"
+    "harness-init deploys 5 generic commands; /update is repo-specific, not included in skill templates",
+    "capability-map.md is a tracking document, not a second guide (preserves golden rule #2)",
+    "File count limit raised to 30 (was 25, repo organically grew)"
   ],
-  "last_updated": "2026-03-27T03:00:00Z"
+  "last_updated": "2026-03-27T04:00:00Z"
 }

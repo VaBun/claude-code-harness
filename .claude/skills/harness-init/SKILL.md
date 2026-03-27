@@ -446,14 +446,26 @@ After generating all files, go through this checklist:
 - [ ] verify.sh is marked executable (chmod +x)
 - [ ] All TODOs are marked for the user
 
-## Step 5: Final message
+## Step 5: Dependency check
+
+Before the final message, verify that tools referenced in hooks are installed:
+
+```bash
+# For each tool in settings.json hooks (ruff, mypy, pytest, etc.):
+which <tool> 2>/dev/null || echo "MISSING: <tool>"
+```
+
+If any tool is missing, add a **⚠ Missing dependencies** section to the final message listing what needs to be installed (e.g., `pip install ruff mypy pytest`).
+
+## Step 6: Final message
 
 Provide the user with:
 
 1. **List of created files** with brief descriptions
-2. **TODOs** — what needs to be filled in manually
-3. **Next steps:**
+2. **⚠ Missing dependencies** (if any) — tools required by hooks but not yet installed, with install commands
+3. **TODOs** — what needs to be filled in manually
+4. **Next steps:**
    - Greenfield: "Fill in docs/features.md, run /plan for the first feature"
    - Brownfield: "Review docs/architecture.md, extend golden-rules.md as you work"
-4. **Reminder:** "Every time the agent makes a mistake — add a rule to golden-rules.md.
+5. **Reminder:** "Every time the agent makes a mistake — add a rule to golden-rules.md.
    The harness grows through use."

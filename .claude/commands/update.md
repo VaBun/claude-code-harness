@@ -15,6 +15,7 @@ Search the web for new Claude Code features and best practices.
    - Append to docs/changelog.md with date and summary
    - Suggest specific edits to README.md sections
    - Note if any golden rules in CLAUDE.md need updating
+   - Check docs/capability-map.md: does the new feature make any "harness" item redundant? If so, suggest marking it "deprecated" or "migrated to native"
 
 4. If nothing new: report "No updates found" with search date.
 

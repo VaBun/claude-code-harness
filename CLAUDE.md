@@ -19,7 +19,7 @@ Self-referential: every tool in this repo genuinely serves it.
 2. README.md is the single guide. No separate docs/guide/ directory.
 3. Each README section points to a live working file in the repo.
 4. No placeholder content. Every example is real and working.
-5. Keep total file count under 25.
+5. Keep total file count under 30.
 6. Log significant decisions in docs/decisions/ using ADR format.
 7. When agent makes a mistake → add a golden rule here.
 8. Run /checkpoint after every major change. Future sessions depend on it.
@@ -35,5 +35,6 @@ See docs/decisions/ for why things are the way they are.
 - `.claude/agents/` — subagents for review and web monitoring
 - `.claude/skills/harness-init/` — deploys harness to other projects (the "product")
 - `docs/` — reference materials, system state, decision log
+- `docs/capability-map.md` — built-in CC vs harness tracking (update via `/update`)
 - `docs/decisions/` — architecture decision records (the "why" behind choices)
 - `.github/workflows/` — automated monitoring via GitHub Actions

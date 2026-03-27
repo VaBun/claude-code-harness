@@ -16,6 +16,7 @@ A living knowledge system for Claude Code best practices. Every file in this rep
 │  README.md        → this guide                           │
 │  CLAUDE.md        → project constitution (golden rules)  │
 │  docs/            → reference, state, decision log       │
+│    capability-map  → built-in CC vs harness tracking     │
 └──────────────────────────────────────────────────────────┘
 ┌─ .claude/ — Claude Code tools ───────────────────────────┐
 │  settings.json    → hooks & permissions                  │
@@ -262,6 +263,7 @@ The discipline of building scaffolding around AI agents. Not the agent, not the 
 **Key insight:** The agent is not the hard part — the harness is. LangChain improved agent accuracy from 52.8% to 66.5% by changing only the harness, not the model.
 
 > See [`docs/harness-protocol.md`](docs/harness-protocol.md) — full 5-layer protocol specification.
+> See [`docs/capability-map.md`](docs/capability-map.md) — what's built into CC vs what the harness adds. Updated via `/update`; tracks feature migrations over time.
 
 ---
 
@@ -291,7 +293,7 @@ cp -r /path/to/claude-code-tips/.claude/skills/harness-init/ ~/.claude/skills/ha
 # 1. Analyze your project (language, framework, tooling)
 # 2. Generate CLAUDE.md with real commands and module guide
 # 3. Create .claude/settings.json with hooks for your stack
-# 4. Install 5 slash commands (plan, review, catchup, checkpoint, audit)
+# 4. Install 5 generic slash commands (plan, review, catchup, checkpoint, audit)
 # 5. Create docs/golden-rules.md adapted to your tech stack
 # 6. Create docs/architecture.md from your actual module structure
 # 7. Set up docs/progress.json for state tracking

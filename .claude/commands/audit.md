@@ -17,7 +17,7 @@ Check the following:
    - Are CLAUDE.md golden rules still accurate?
 
 4. **Structural health**:
-   - Total file count (must be ≤25)
+   - Total file count (check limit in CLAUDE.md golden rules)
    - All JSON files valid
    - docs/progress.json up to date?
    - Any ADRs that contradict current reality?
