@@ -4,8 +4,18 @@ A living knowledge system for Claude Code best practices. Every file in this rep
 
 **Three ways to use this repo:**
 1. **Learn** — read this guide, explore the live files it points to
-2. **Deploy** — install the `harness-init` skill to bootstrap any project
+2. **Deploy** — run the one-liner below to bootstrap any project
 3. **Contribute** — run `/catchup`, pick a task from `docs/progress.json`
+
+## Quick Start: Deploy Harness to Your Project
+
+Run this in any project directory:
+
+```bash
+git clone --depth 1 https://github.com/VaBun/claude-code-harness.git /tmp/cc-harness && mkdir -p .claude/skills && cp -r /tmp/cc-harness/.claude/skills/harness-init .claude/skills/ && rm -rf /tmp/cc-harness
+```
+
+Then open Claude Code and say **"harness init"**. It will analyze your project and generate: CLAUDE.md, hooks, 5 slash commands, golden rules, architecture docs, and progress tracking.
 
 ---
 
@@ -311,29 +321,6 @@ Architecture Decision Records capture **why** choices were made. Critical for mu
 **/catchup** reads from both, plus `git log`.
 
 > See [`docs/decisions/`](docs/decisions/) — this repo's own ADRs: why self-reference, why English, why single README.
-
----
-
-## Quick Start: Deploy Harness to Your Project
-
-```bash
-# Install the harness-init skill (once)
-cp -r /path/to/claude-code-tips/.claude/skills/harness-init/ ~/.claude/skills/harness-init/
-
-# In any project, open Claude Code and say:
-# "harness init"
-#
-# It will:
-# 1. Analyze your project (language, framework, tooling)
-# 2. Generate CLAUDE.md with real commands and module guide
-# 3. Create .claude/settings.json with hooks for your stack
-# 4. Install 5 generic slash commands (plan, review, catchup, checkpoint, audit)
-# 5. Create docs/golden-rules.md adapted to your tech stack
-# 6. Create docs/architecture.md from your actual module structure
-# 7. Set up docs/progress.json for state tracking
-```
-
-This is `/init` taken to its full potential — from a single CLAUDE.md to a complete Level 2 harness.
 
 ---
 
