@@ -5,7 +5,7 @@ A living knowledge system for Claude Code best practices. Every file in this rep
 **Three ways to use this repo:**
 1. **Learn** — read this guide, explore the live files it points to
 2. **Deploy** — run the one-liner below to bootstrap any project
-3. **Contribute** — run `/catchup`, pick a task from `docs/progress.json`
+3. **Contribute** — run `/load`, pick a task from `docs/progress.json`
 
 ## Quick Start: Deploy Harness to Your Project
 
@@ -32,7 +32,7 @@ Then open Claude Code and say **"harness init"**. It will analyze your project a
 └──────────────────────────────────────────────────────────┘
 ┌─ .claude/ — Claude Code tools ───────────────────────────┐
 │  settings.json    → hooks & permissions                  │
-│  commands/        → /plan, /review, /catchup, ...        │
+│  commands/        → /plan, /review, /load, ...            │
 │  agents/          → reviewer, updater                    │
 │  skills/          → harness-init (the deployer)          │
 └──────────────────────────────────────────────────────────┘
@@ -102,7 +102,7 @@ Markdown files in `.claude/commands/` invoked via `/command-name`. Each file is 
 
 **Scripted usage:** `claude --bare -p "..."` skips hooks/LSP/plugins for CI pipelines.
 
-> See [`.claude/commands/`](.claude/commands/) — 6 commands: `/plan`, `/review`, `/catchup`, `/save`, `/audit`, `/update`. Each serves a real workflow in this repo.
+> See [`.claude/commands/`](.claude/commands/) — 6 commands: `/plan`, `/review`, `/load`, `/save`, `/audit`, `/update`. Each serves a real workflow in this repo.
 
 ---
 
@@ -328,7 +328,7 @@ Architecture Decision Records capture **why** choices were made. Critical for mu
 **Format:** Context → Decision → Rationale → Consequences. One file per decision in `docs/decisions/`.
 
 **/save** writes to both `docs/progress.json` (what) and `docs/decisions/` (why).
-**/catchup** reads from both, plus `git log`.
+**/load** reads from both, plus `git log`.
 
 > See [`docs/decisions/`](docs/decisions/) — this repo's own ADRs: why self-reference, why English, why single README.
 

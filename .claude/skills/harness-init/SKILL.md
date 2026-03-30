@@ -24,7 +24,7 @@ and brownfield (existing project).
 If the user says **"harness init"** → full initialization (Process below).
 If the user says **"harness update"** → update mode (Update Process below).
 
-Auto-detect: if `.claude/commands/` already has `plan.md`, `review.md`, `catchup.md`, `save.md`, `audit.md` — suggest update mode instead of init.
+Auto-detect: if `.claude/commands/` already has `plan.md`, `review.md`, `load.md`, `save.md`, `audit.md` — suggest update mode instead of init.
 
 ---
 
@@ -36,7 +36,7 @@ Updates an existing harness to the latest command templates without touching use
 
 | Category | Files | Update action |
 |----------|-------|---------------|
-| **Harness-owned** (generic commands) | `.claude/commands/plan.md`, `review.md`, `catchup.md`, `save.md`, `audit.md` | Safe to update |
+| **Harness-owned** (generic commands) | `.claude/commands/plan.md`, `review.md`, `load.md`, `save.md`, `audit.md` | Safe to update |
 | **User-owned** (customized at init) | `CLAUDE.md`, `.claude/settings.json`, `docs/golden-rules.md`, `docs/architecture.md`, `docs/progress.json` | **Never overwrite** |
 
 ### Step U1: Fetch latest templates
@@ -50,7 +50,7 @@ git clone --depth 1 https://github.com/VaBun/claude-code-harness.git /tmp/cc-har
 For each harness-owned command file, compare the current version with the new template:
 
 ```bash
-for cmd in plan.md review.md catchup.md save.md audit.md; do
+for cmd in plan.md review.md load.md save.md audit.md; do
   if [ -f ".claude/commands/$cmd" ] && [ -f "/tmp/cc-harness/.claude/skills/harness-init/templates/commands/$cmd" ]; then
     diff -u ".claude/commands/$cmd" "/tmp/cc-harness/.claude/skills/harness-init/templates/commands/$cmd" || true
   fi
@@ -70,7 +70,7 @@ Show a summary like:
 Harness update summary:
   CHANGED:  plan.md (interview-driven planning added)
   CHANGED:  save.md (commit message format updated)
-  UNCHANGED: review.md, catchup.md, audit.md
+  UNCHANGED: review.md, load.md, audit.md
 
 User-owned files (NOT touched):
   CLAUDE.md, .claude/settings.json, docs/*
@@ -140,7 +140,7 @@ Full list of harness components:
 SKELETON
 ├── CLAUDE.md                         — project constitution
 ├── .claude/settings.json             — hooks configuration
-└── .claude/commands/                 — slash commands (plan, catchup, save, review, audit)
+└── .claude/commands/                 — slash commands (plan, load, save, review, audit)
 
 KNOWLEDGE BASE
 ├── docs/architecture.md              — architecture and invariants
@@ -525,7 +525,7 @@ After creation: `chmod +x scripts/verify.sh`
 ## Template: Slash commands
 
 Copy all files from `SKILL_DIR/templates/commands/` to the project's `.claude/commands/`:
-- `plan.md`, `catchup.md`, `save.md`, `review.md`, `audit.md`
+- `plan.md`, `load.md`, `save.md`, `review.md`, `audit.md`
 
 ---
 

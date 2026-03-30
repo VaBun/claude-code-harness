@@ -6,7 +6,7 @@
     "Copied harness-init skill files (SKILL.md, analyze.py, command templates)",
     "Wrote CLAUDE.md with golden rules and module guide",
     "Configured .claude/settings.json with hooks (JSON validation, dangerous command blocker, post-edit reminder)",
-    "Created 6 slash commands (plan, review, catchup, save, audit, update)",
+    "Created 6 slash commands (plan, review, load, save, audit, update)",
     "Created 2 subagents (reviewer, updater)",
     "Copied harness-protocol.md to docs/",
     "Wrote docs/changelog.md with current CC features (March 2026)",

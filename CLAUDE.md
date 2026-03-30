@@ -9,7 +9,7 @@ Self-referential: every tool in this repo genuinely serves it.
 ## Key Commands
 - `/plan SECTION` — plan a new section (don't write yet)
 - `/review` — review uncommitted changes against golden rules
-- `/catchup` — restore context after /clear or new session
+- `/load` — restore context after /clear or new session
 - `/save` — save progress to docs/progress.json + log decisions
 - `/audit` — check content freshness and link health
 - `/update` — search web for new Claude Code features

@@ -58,7 +58,7 @@ project/
 │   ├── commands/                # Slash commands
 │   │   ├── plan.md              # /plan — plan a feature without coding
 │   │   ├── review.md            # /review — review current changes
-│   │   ├── catchup.md           # /catchup — restore context after /clear
+│   │   ├── load.md              # /load — restore context after /clear
 │   │   ├── save.md              # /save — save progress + decisions
 │   │   └── audit.md             # /audit — check harness health
 │   ├── agents/                  # Custom subagents
@@ -666,7 +666,7 @@ Most projects need level 2-3. Level 4 is justified for large products with dedic
 This document is a protocol specification. Building on it:
 
 1. **Claude Code skill** that bootstraps harness for a new project in one command → see the `harness-init` skill in this repository
-2. **Slash commands** automating routine operations (plan, catchup, save, review) → see `.claude/commands/` in this repository
+2. **Slash commands** automating routine operations (plan, load, save, review) → see `.claude/commands/` in this repository
 3. **Garbage collection agent** running on schedule → see the `reviewer` and `updater` agents
 4. **Self-updating system** that tracks new features → see `.github/workflows/check-updates.yml`
 
