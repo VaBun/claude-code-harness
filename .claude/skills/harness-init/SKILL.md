@@ -10,6 +10,7 @@ and brownfield (existing project).
   "prepare scaffolding", "bring project to harnessed state"
 - User wants to add CLAUDE.md, golden rules, verify, slash commands
 - User mentions "harness protocol", "harness engineering"
+- User says "harness update" — update existing harness to latest templates
 
 ## Principles
 
@@ -18,7 +19,102 @@ and brownfield (existing project).
 3. **Don't duplicate** — if there's a Makefile with `make test`, don't reinvent verify.sh. Use what exists.
 4. **Incrementality** — for brownfield: create a scaffold that will grow with use.
 
-## Process
+## Mode Detection
+
+If the user says **"harness init"** → full initialization (Process below).
+If the user says **"harness update"** → update mode (Update Process below).
+
+Auto-detect: if `.claude/commands/` already has `plan.md`, `review.md`, `catchup.md`, `save.md`, `audit.md` — suggest update mode instead of init.
+
+---
+
+## Update Process
+
+Updates an existing harness to the latest command templates without touching user-customized files.
+
+### File ownership model
+
+| Category | Files | Update action |
+|----------|-------|---------------|
+| **Harness-owned** (generic commands) | `.claude/commands/plan.md`, `review.md`, `catchup.md`, `save.md`, `audit.md` | Safe to update |
+| **User-owned** (customized at init) | `CLAUDE.md`, `.claude/settings.json`, `docs/golden-rules.md`, `docs/architecture.md`, `docs/progress.json` | **Never overwrite** |
+
+### Step U1: Fetch latest templates
+
+```bash
+git clone --depth 1 https://github.com/VaBun/claude-code-harness.git /tmp/cc-harness
+```
+
+### Step U2: Show what changed
+
+For each harness-owned command file, compare the current version with the new template:
+
+```bash
+for cmd in plan.md review.md catchup.md save.md audit.md; do
+  if [ -f ".claude/commands/$cmd" ] && [ -f "/tmp/cc-harness/.claude/skills/harness-init/templates/commands/$cmd" ]; then
+    diff -u ".claude/commands/$cmd" "/tmp/cc-harness/.claude/skills/harness-init/templates/commands/$cmd" || true
+  fi
+done
+```
+
+Present the diffs to the user in a clear format:
+- **Changed:** files with differences (show the diff)
+- **Unchanged:** files identical to latest templates
+- **Missing:** template files not yet in the project (new commands added upstream)
+
+### Step U3: Ask for confirmation
+
+Show a summary like:
+
+```
+Harness update summary:
+  CHANGED:  plan.md (interview-driven planning added)
+  CHANGED:  save.md (commit message format updated)
+  UNCHANGED: review.md, catchup.md, audit.md
+
+User-owned files (NOT touched):
+  CLAUDE.md, .claude/settings.json, docs/*
+
+Apply updates? [y/n]
+```
+
+Wait for user approval before proceeding.
+
+### Step U4: Apply updates
+
+Only copy files the user approved. Then clean up:
+
+```bash
+rm -rf /tmp/cc-harness
+```
+
+### Step U5: Report new features
+
+Check if the new harness version introduces features the user might want to adopt manually:
+- New hook patterns in `.claude/settings.json` template
+- New golden rules for their stack
+- New sections recommended for CLAUDE.md
+
+Present these as **suggestions**, not automatic changes. Example:
+
+```
+New in this version:
+  - /plan now interviews you before planning (already updated above)
+  - New hook event: PostCompact — consider adding to your settings.json
+  - New pattern: .claude/rules/ directory for path-scoped instructions
+
+These are suggestions — apply them manually if relevant to your project.
+```
+
+### Step U6: Clean up
+
+```bash
+rm -rf /tmp/cc-harness
+```
+
+---
+
+## Init Process
 
 ### Step 1: Analyze the project
 

@@ -17,6 +17,8 @@ git clone --depth 1 https://github.com/VaBun/claude-code-harness.git /tmp/cc-har
 
 Then open Claude Code and say **"harness init"**. It will analyze your project and generate: CLAUDE.md, hooks, 5 slash commands, golden rules, architecture docs, and progress tracking.
 
+**To update an existing harness:** run the same one-liner, then say **"harness update"**. It will show diffs for each command template, ask for confirmation, and suggest new features — without touching your customized CLAUDE.md, hooks, or golden rules.
+
 ---
 
 ## Repository Map
