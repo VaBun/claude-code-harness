@@ -17,7 +17,7 @@ Self-referential: every tool in this repo genuinely serves it.
 ## Golden Rules
 1. Every file must genuinely serve THIS repo — no demo-only files.
 2. README.md is the single guide. No separate docs/guide/ directory.
-3. Each README section points to a live working file in the repo.
+3. Each README section points to a live working file in the repo (except §19 "Patterns for Your Projects" — general-purpose techniques that can't be self-referential).
 4. No placeholder content. Every example is real and working.
 5. Keep total file count under 30.
 6. Log significant decisions in docs/decisions/ using ADR format.

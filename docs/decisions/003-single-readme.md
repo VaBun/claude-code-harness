@@ -13,7 +13,7 @@ README.md is the single guide. No separate docs/guide/ directory. Each README se
 - Inspired by conceptualization theory: README is the "grammar" (rules of combination), .claude/ files are the "alphabet" (primitives). Grammar + alphabet is sufficient — no need for a separate textbook.
 
 ## Consequences
-- README must stay under ~350 lines to remain scannable (revised from ~300 as the repo grew organically with new CC features).
+- README must stay under ~400 lines to remain scannable (revised from ~350 after adding "Patterns for Your Projects" section — general-purpose techniques that complement the self-referential content).
 - Each section is concise (explanation + pointer to live file), not exhaustive.
 - Deep reference material (harness protocol) lives in docs/ — README links to it.
 - If the repo grows beyond what a single README can cover, we revisit this decision.

@@ -45,8 +45,10 @@ Then open Claude Code and say **"harness init"**. It will analyze your project a
 
 The first file Claude reads in any session. Contains: project overview, key commands, golden rules, module guide. Keep it under 200 lines. Include only what the agent can't infer from code.
 
-**What to include:** build/test/lint commands, architectural constraints, naming conventions, what NOT to do.
+**What to include:** build/test/lint commands, architectural constraints, naming conventions, what NOT to do, **Definition of Done** (explicit acceptance criteria for completed work).
 **What to skip:** standard language conventions, things linters catch, file-by-file descriptions.
+
+**Companion files:** consider a `PRD.md` alongside CLAUDE.md for feature specs and acceptance criteria. Claude reads both at session start, preserving requirements across `/clear` boundaries.
 
 **Hierarchy:** root `CLAUDE.md` for global context. Subdirectory `CLAUDE.md` files for module-specific rules (loaded on demand). Child files don't repeat parent — they add specifics.
 
@@ -169,6 +171,8 @@ Model Context Protocol connects Claude Code to external services (GitHub, Linear
 
 **Scopes:** global (`~/.claude/.mcp.json`), project (`.claude/.mcp.json`), local (`.claude/.mcp.local.json`).
 
+**Security:** grant only necessary access (scoped paths, specific pages). Store credentials in MCP config, never in prompts. Review data-modifying actions before approval.
+
 ---
 
 ## 8. Plugins
@@ -252,6 +256,8 @@ AI-driven permission decisions (March 2026, research preview). A classifier mode
 
 `/effort low` (fast/cheap) → `medium` (default) → `high` → `max` (deepest reasoning, Opus only) → `auto` (model picks). Higher effort doesn't always help — medium is often optimal for coding.
 
+**Model selection:** Sonnet for everyday coding and learning. Opus for complex architecture, extended autonomous sessions, multi-agent workflows. Haiku for trivial queries and subagent tasks. A less capable model often costs more per task due to correction passes.
+
 ---
 
 ## 15. Context Management
@@ -272,9 +278,11 @@ Three built-in tools for managing the context window:
 
 ## 16. Workflow Patterns
 
-**Plan → Execute → Review:** Use plan mode for non-trivial tasks. Explore without changes → plan → implement → verify → commit.
+**Interview → Plan → Execute → Review:** Before planning, ask Claude to interview you — surface undecided requirements, trade-offs, acceptance criteria. Then: explore without changes → plan → implement → verify → commit. Activate plan mode with Shift+Tab twice.
 
-**Initializer → Coding Agent:** For new projects. First session creates structure + feature list. Subsequent sessions work one feature at a time.
+**Specification quality test:** could a competent engineer read your prompt with no other context and build exactly what you envision? If not, add: library versions, data structures, file boundaries, acceptance criteria.
+
+**Initializer → Coding Agent:** For new projects. First session creates skeleton (directory structure, empty files with correct imports and signatures). Subsequent sessions build logic one feature at a time.
 
 **Harness Engineering Loop:** Agent makes mistake → add golden rule → encode in hook/test → mistake never happens again. The harness grows monotonically.
 
@@ -321,6 +329,22 @@ Architecture Decision Records capture **why** choices were made. Critical for mu
 **/catchup** reads from both, plus `git log`.
 
 > See [`docs/decisions/`](docs/decisions/) — this repo's own ADRs: why self-reference, why English, why single README.
+
+---
+
+## 19. Patterns for Your Projects
+
+> **Note on self-reference.** Sections 1-18 above describe features that are both documented and demonstrated in this repo — every tool genuinely serves it. This section collects general-purpose patterns that apply to **software projects** but can't be self-referential in a knowledge-management repo. They're here because they make Claude Code significantly more effective.
+
+**Four-file continuity system.** Maintain `CLAUDE.md` + `PRD.md` + `README.md` + `progress.md` as cross-session memory. Start each new session with: *"Read CLAUDE.md, PRD.md, README.md, and progress.md. Confirm understanding of project state."*
+
+**Architecture for AI.** Separate layers (presentation, business logic, data access, integration) into distinct directories. Heuristic: if Claude modifies more than 3-5 files for a single feature, either the feature is poorly scoped or the codebase has too many cross-dependencies.
+
+**MCP workflow examples.** GitHub: "Open a PR with these changes, then check CI status." Playwright: "Write an end-to-end test for the login flow, run it, fix failures." Slack: "Check #deployments for the latest status." Google Docs: "Read the product spec and create PRD.md from it."
+
+**Manual parallel sessions.** Run multiple Claude terminal windows with explicit scope boundaries in each prompt: *"Scope: client/ directory only. Do not touch server/."* Simpler than worktrees — no git setup — at the cost of no automatic conflict prevention.
+
+**Ask Before Edits vs. Automatic Edit.** Default mode shows diffs for approval before modifying files. Automatic mode writes without approval. Use automatic only after plan mode confirms the approach is sound.
 
 ---
 

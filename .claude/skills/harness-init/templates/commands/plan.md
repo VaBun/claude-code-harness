@@ -1,5 +1,12 @@
 Read docs/architecture.md and docs/golden-rules.md first.
 
+Before writing any plan or code, interview the user:
+- What problem does this solve? Who benefits?
+- What's the expected scope (files, APIs, data model)?
+- Are there trade-offs or alternatives considered?
+- What does "done" look like? (acceptance criteria)
+Do not proceed until you understand the full picture.
+
 Create a detailed implementation plan for: $ARGUMENTS
 
 Save the plan to docs/plans/[feature-name].md
