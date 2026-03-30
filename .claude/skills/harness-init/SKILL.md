@@ -44,7 +44,7 @@ Full list of harness components:
 SKELETON
 ├── CLAUDE.md                         — project constitution
 ├── .claude/settings.json             — hooks configuration
-└── .claude/commands/                 — slash commands (plan, catchup, checkpoint, review, audit)
+└── .claude/commands/                 — slash commands (plan, catchup, save, review, audit)
 
 KNOWLEDGE BASE
 ├── docs/architecture.md              — architecture and invariants
@@ -429,7 +429,7 @@ After creation: `chmod +x scripts/verify.sh`
 ## Template: Slash commands
 
 Copy all files from `SKILL_DIR/templates/commands/` to the project's `.claude/commands/`:
-- `plan.md`, `catchup.md`, `checkpoint.md`, `review.md`, `audit.md`
+- `plan.md`, `catchup.md`, `save.md`, `review.md`, `audit.md`
 
 ---
 

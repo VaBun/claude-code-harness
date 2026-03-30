@@ -22,7 +22,7 @@
 | Context diagnostics | `/context` (tool usage, memory bloat, capacity warnings) | — | native |
 | Auto-memory | Persistent file-based memory, `autoMemoryDirectory` setting, timestamps | — | native |
 | Context restore after /clear | — | `/catchup` (reads progress.json + decisions/ + git log) | harness |
-| Progress persistence | — | `/checkpoint` (writes progress.json + ADR) | harness |
+| Progress persistence | — | `/save` (writes progress.json + ADR) | harness |
 | Reasoning depth | `/effort low\|medium\|high\|max\|auto` | — | native |
 | Voice input | `/voice` (push-to-talk, 20 languages) | — | native |
 
@@ -99,7 +99,7 @@
 | Status | Count | Examples |
 |---|---|---|
 | native | ~29 | /clear, /compact, /context, /effort, /voice, auto mode, --channels, computer use, Agent Teams, worktrees, sparsePaths, MCP, plugins, cron, --remote, Dispatch, auto-fix PRs, /teleport, --bare, /simplify, /batch, auto-memory, managed-settings.d/ (partial list) |
-| harness | ~12 | /catchup, /checkpoint, /audit, /update, dangerous cmd blocker, ADR, progress.json, golden rules |
+| harness | ~12 | /catchup, /save, /audit, /update, dangerous cmd blocker, ADR, progress.json, golden rules |
 | extended | ~6 | /plan (overridden), /review (harness extends /simplify), /batch (extended), commands (6 custom), skills (harness-init), agents (reviewer, updater) |
 | deprecated | 0 | — (none yet; will appear as CC evolves) |
 

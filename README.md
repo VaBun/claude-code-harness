@@ -98,7 +98,7 @@ Markdown files in `.claude/commands/` invoked via `/command-name`. Each file is 
 
 **Scripted usage:** `claude --bare -p "..."` skips hooks/LSP/plugins for CI pipelines.
 
-> See [`.claude/commands/`](.claude/commands/) — 6 commands: `/plan`, `/review`, `/catchup`, `/checkpoint`, `/audit`, `/update`. Each serves a real workflow in this repo.
+> See [`.claude/commands/`](.claude/commands/) — 6 commands: `/plan`, `/review`, `/catchup`, `/save`, `/audit`, `/update`. Each serves a real workflow in this repo.
 
 ---
 
@@ -282,7 +282,7 @@ Three built-in tools for managing the context window:
 
 **Plan Locally, Execute Remotely:** Start in `--permission-mode plan` to collaborate on strategy with no file writes. When ready, fire `claude --remote "Execute the plan"` to run on cloud VMs. Multiple `--remote` calls give each task its own isolated VM.
 
-**Document & Clear:** After 30+ minutes, `/checkpoint` → `/clear` → new session reads progress.json + decisions/. Prevents context decay.
+**Document & Clear:** After 30+ minutes, `/save` → `/clear` → new session reads progress.json + decisions/. Prevents context decay.
 
 ---
 
@@ -317,7 +317,7 @@ Architecture Decision Records capture **why** choices were made. Critical for mu
 
 **Format:** Context → Decision → Rationale → Consequences. One file per decision in `docs/decisions/`.
 
-**/checkpoint** writes to both `docs/progress.json` (what) and `docs/decisions/` (why).
+**/save** writes to both `docs/progress.json` (what) and `docs/decisions/` (why).
 **/catchup** reads from both, plus `git log`.
 
 > See [`docs/decisions/`](docs/decisions/) — this repo's own ADRs: why self-reference, why English, why single README.

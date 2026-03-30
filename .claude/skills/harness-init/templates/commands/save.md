@@ -7,4 +7,4 @@ Update docs/progress.json (or docs/progress.md) with current session state:
 - blockers: anything blocking progress
 - last_updated: current timestamp
 
-Then commit all changes with message: "checkpoint: [brief summary of session work]"
+Then commit all changes with message: "save: [brief summary of session work]"

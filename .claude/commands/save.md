@@ -16,6 +16,6 @@ Do the following:
    - Use the ADR format: Context → Decision → Rationale → Consequences
    - Only log decisions that future sessions need to know about
 
-3. Commit all changes with message: "checkpoint: [brief summary]"
+3. Commit all changes with message: "save: [brief summary]"
 
 Do NOT skip the decisions step — comprehension preservation is critical.

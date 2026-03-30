@@ -10,7 +10,7 @@ Self-referential: every tool in this repo genuinely serves it.
 - `/plan SECTION` — plan a new section (don't write yet)
 - `/review` — review uncommitted changes against golden rules
 - `/catchup` — restore context after /clear or new session
-- `/checkpoint` — save progress to docs/progress.json + log decisions
+- `/save` — save progress to docs/progress.json + log decisions
 - `/audit` — check content freshness and link health
 - `/update` — search web for new Claude Code features
 
@@ -22,7 +22,7 @@ Self-referential: every tool in this repo genuinely serves it.
 5. Keep total file count under 30.
 6. Log significant decisions in docs/decisions/ using ADR format.
 7. When agent makes a mistake → add a golden rule here.
-8. Run /checkpoint after every major change. Future sessions depend on it.
+8. Run /save after every major change. Future sessions depend on it.
 9. All content in English.
 10. Commit messages: imperative mood, reference what changed and why.
 
