@@ -100,7 +100,7 @@
 |---|---|---|
 | native | ~29 | /clear, /compact, /context, /effort, /voice, auto mode, --channels, computer use, Agent Teams, worktrees, sparsePaths, MCP, plugins, cron, --remote, Dispatch, auto-fix PRs, /teleport, --bare, /simplify, /batch, auto-memory, managed-settings.d/ (partial list) |
 | harness | ~12 | /catchup, /save, /audit, /update, dangerous cmd blocker, ADR, progress.json, golden rules |
-| extended | ~6 | /plan (overridden), /review (harness extends /simplify), /batch (extended), commands (6 custom), skills (harness-init), agents (reviewer, updater) |
+| extended | ~5 | /plan (overridden), /review (harness extends /simplify), commands (6 custom), skills (harness-init), agents (reviewer, updater) |
 | deprecated | 0 | — (none yet; will appear as CC evolves) |
 
 ---

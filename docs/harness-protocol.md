@@ -34,7 +34,7 @@ The protocol is organized as **five layers**, from foundational to dynamic:
 ├─────────────────────────────────────────────────┤
 │  3. FEEDBACK LOOPS — Hooks, tests, verification  │
 ├─────────────────────────────────────────────────┤
-│  2. KNOWLEDGE BASE — Project docbase             │
+│  2. KNOWLEDGE BASE — Docs, decisions, progress   │
 ├─────────────────────────────────────────────────┤
 │  1. SKELETON — Repository structure              │
 └─────────────────────────────────────────────────┘
