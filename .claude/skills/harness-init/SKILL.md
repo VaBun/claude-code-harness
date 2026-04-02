@@ -82,11 +82,7 @@ Wait for user approval before proceeding.
 
 ### Step U4: Apply updates
 
-Only copy files the user approved. Then clean up:
-
-```bash
-rm -rf /tmp/cc-harness
-```
+Only copy files the user approved.
 
 ### Step U5: Report new features
 
@@ -118,7 +114,7 @@ rm -rf /tmp/cc-harness
 
 ### Step 1: Analyze the project
 
-Run the analyzer from the skill directory:
+Run the analyzer from the skill directory (`SKILL_DIR` is the directory containing this SKILL.md file — Claude resolves it automatically at runtime):
 
 ```bash
 python3 SKILL_DIR/scripts/analyze.py PROJECT_ROOT
@@ -588,7 +584,7 @@ After creation: `chmod +x scripts/verify.sh`
 
 ## Template: Slash commands
 
-Copy all files from `SKILL_DIR/templates/commands/` to the project's `.claude/commands/`:
+Copy all files from `SKILL_DIR/templates/commands/` (same `SKILL_DIR` as Step 1) to the project's `.claude/commands/`:
 - `plan.md`, `load.md`, `save.md`, `review.md`, `audit.md`
 
 ---

@@ -46,6 +46,9 @@ Independent policy fragments as partial `settings.json` files. Enables org-level
 ### worktree.sparsePaths Setting
 Git sparse-checkout for agent worktrees in monorepos. Agents only check out needed paths, reducing disk use and clone time.
 
+### /btw — Side Questions
+`/btw question` asks a quick side question without polluting conversation history. Answer appears in a dismissible overlay. Works while Claude is processing. No tools available — answers only from current context. Inverse of subagents (full context, no tools vs no context, full tools).
+
 ### Voice Mode
 `/voice` command activates push-to-talk mode. Hold spacebar to speak, release to send. Supports 20 languages. Free transcription (doesn't count against rate limits).
 

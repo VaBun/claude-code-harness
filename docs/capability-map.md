@@ -18,6 +18,7 @@
 | Capability | Built-in (CC) | Harness adds | Status |
 |---|---|---|---|
 | Context reset | `/clear` | — | native |
+| Side questions | `/btw` (overlay answer, no history, no tools, works while Claude is busy) | — | native |
 | Context compression | `/compact` | — | native |
 | Context diagnostics | `/context` (tool usage, memory bloat, capacity warnings) | — | native |
 | Auto-memory | Persistent file-based memory, `autoMemoryDirectory` setting, timestamps | — | native |
@@ -98,9 +99,9 @@
 
 | Status | Count | Examples |
 |---|---|---|
-| native | ~29 | /clear, /compact, /context, /effort, /voice, auto mode, --channels, computer use, Agent Teams, worktrees, sparsePaths, MCP, plugins, cron, --remote, Dispatch, auto-fix PRs, /teleport, --bare, /simplify, /batch, auto-memory, managed-settings.d/ (partial list) |
+| native | ~30 | /clear, /compact, /context, /effort, /voice, auto mode, --channels, computer use, Agent Teams, worktrees, sparsePaths, MCP, plugins, cron, --remote, Dispatch, auto-fix PRs, /teleport, --bare, /simplify, /batch, auto-memory, managed-settings.d/ (partial list) |
 | harness | ~12 | /load, /save, /audit, /update, dangerous cmd blocker, ADR, progress.json, golden rules |
-| extended | ~5 | /plan (overridden), /review (harness extends /simplify), commands (6 custom), skills (harness-init), agents (reviewer, updater) |
+| extended | ~6 | /plan (overridden), /review (harness extends /simplify), commands (6 custom), skills (harness-init), agents (reviewer, updater) |
 | deprecated | 0 | — (none yet; will appear as CC evolves) |
 
 ---
