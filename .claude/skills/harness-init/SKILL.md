@@ -274,17 +274,39 @@ Greenfield: <!-- TODO: fill in after initial architecture --> }
 
 ## Template: docs/golden-rules.md
 
-Rules MUST be adapted to the specific stack.
+Rules MUST be adapted to the specific stack. Each template below includes:
+- **Universal rules** (from rules-cookbook.md — apply to every stack)
+- **Stack-specific rules** (adapted to the detected language/framework)
+
+### Universal Section (include in ALL stacks)
+```markdown
+## Universal
+- IMPORTANT: Before writing new code, check if the functionality already exists. Search first.
+- Write pure functions. Side effects only at boundaries (handlers, CLI entry points).
+- Each function does one thing. No boolean flag parameters that change behavior.
+- Raise errors explicitly. No silent failures. No bare exception handlers.
+- Error messages MUST include context: what failed, with what input, expected vs actual.
+- Use structured logging with fields, not string interpolation.
+- Install dependencies via project config (pyproject.toml, package.json), not globally.
+- NEVER mark a task done without running verification.
+- Make every change as simple as possible. Prefer deleting code over adding code.
+- Only touch what is necessary. No "while I'm here" improvements.
+- When agent makes a mistake → add a rule here. The harness grows monotonically.
+```
 
 ### Python
 ```markdown
 # Golden Rules
+
+## Universal
+{Include universal section above}
 
 ## Code Style
 - MAX function length: 50 lines. If longer → extract.
 - ALL public functions MUST have docstrings with type hints.
 - Use pathlib over os.path. Use f-strings over .format().
 - NO bare `except:`. Always catch specific exception types.
+- Strict typing: no `Any` without justification.
 
 ## Architecture
 - NO circular imports.
@@ -297,7 +319,7 @@ Rules MUST be adapted to the specific stack.
 - NO `dict["key"]` without validation. Use typed models.
 
 ## Testing
-- Every endpoint → at least one happy path + one error path test.
+- Prefer integration tests over unit tests with mocks.
 - Tests MUST be independent. No shared mutable state.
 - Use factories over fixtures with hardcoded data.
 
@@ -310,6 +332,9 @@ Rules MUST be adapted to the specific stack.
 ### TypeScript / JavaScript
 ```markdown
 # Golden Rules
+
+## Universal
+{Include universal section above}
 
 ## Code Style
 - MAX function length: 40 lines.
@@ -329,7 +354,7 @@ Rules MUST be adapted to the specific stack.
 - Use ISO 8601 for dates.
 
 ## Testing
-- Every component → render test + key interaction test.
+- Prefer integration tests over unit tests with mocks.
 - Every API route → happy path + error test.
 - Mock external dependencies, not internal modules.
 
@@ -340,6 +365,9 @@ Rules MUST be adapted to the specific stack.
 ### Go
 ```markdown
 # Golden Rules
+
+## Universal
+{Include universal section above}
 
 ## Code Style
 - MAX function length: 50 lines.
@@ -364,6 +392,9 @@ Rules MUST be adapted to the specific stack.
 ### Rust
 ```markdown
 # Golden Rules
+
+## Universal
+{Include universal section above}
 
 ## Code Style
 - MAX function length: 50 lines.
@@ -488,8 +519,41 @@ After creation: `chmod +x scripts/verify.sh`
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'BLOCKED: Dangerous command' >&2 && exit 2",
+            "command": "echo 'BLOCKED: Dangerous command detected. Use safer alternatives.' >&2 && exit 2",
             "blocking": true
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo $TOOL_INPUT | jq -r '.file_path // .path // empty'); case \"$FILE\" in *.env|*.env.*|*credentials*|*.key|*.pem|*secret*) echo \"BLOCKED: $FILE is a protected file. Never write secrets to code.\" >&2 && exit 2;; esac",
+            "blocking": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"Branch: $(git branch --show-current 2>/dev/null)\" && echo \"Last 3 commits:\" && git log --oneline -3 2>/dev/null || true",
+            "blocking": false
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Reminders after compact: 1) Read CLAUDE.md for golden rules. 2) Check docs/progress.json for current task. 3) Run git status to see uncommitted work.'",
+            "blocking": false
           }
         ]
       }

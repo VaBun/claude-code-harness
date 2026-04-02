@@ -45,7 +45,7 @@ Then open Claude Code and say **"harness init"**. It will analyze your project a
 
 ## 1. CLAUDE.md — Project Constitution
 
-The first file Claude reads in any session. Contains: project overview, key commands, golden rules, module guide. Keep it under 200 lines. Include only what the agent can't infer from code.
+The first file Claude reads in any session. Contains: project overview, key commands, golden rules, module guide. Keep it under 200 lines (~150 custom instructions max — the system prompt uses ~50 of Claude's instruction-following budget). Include only what the agent can't infer from code.
 
 **What to include:** build/test/lint commands, architectural constraints, naming conventions, what NOT to do, **Definition of Done** (explicit acceptance criteria for completed work).
 **What to skip:** standard language conventions, things linters catch, file-by-file descriptions.
@@ -88,7 +88,8 @@ Shell commands that execute at lifecycle points. Unlike CLAUDE.md instructions (
 
 **Essential hook: Dangerous Command Blocker.** PreToolUse intercepts `rm -rf`, `git reset --hard`, `git push --force`. Takes 2 minutes to set up, prevents catastrophic accidents.
 
-> See [`.claude/settings.json`](.claude/settings.json) — this repo's hooks: JSON validation pre-commit, dangerous command blocker, post-edit reminder.
+> See [`.claude/settings.json`](.claude/settings.json) — this repo's hooks: JSON validation pre-commit, dangerous command blocker, protected files, session context injection, post-compact reminder, post-edit reminder.
+> See [`docs/hook-cookbook.md`](docs/hook-cookbook.md) — 25+ copy-paste hook patterns: safety, code quality, workflow, notifications, permissions.
 
 ---
 
@@ -341,6 +342,8 @@ Architecture Decision Records capture **why** choices were made. Critical for mu
 **Four-file continuity system.** Maintain `CLAUDE.md` + `PRD.md` + `README.md` + `progress.md` as cross-session memory. Start each new session with: *"Read CLAUDE.md, PRD.md, README.md, and progress.md. Confirm understanding of project state."*
 
 **Architecture for AI.** Separate layers (presentation, business logic, data access, integration) into distinct directories. Heuristic: if Claude modifies more than 3-5 files for a single feature, either the feature is poorly scoped or the codebase has too many cross-dependencies.
+
+**Golden rules cookbook.** See [`docs/rules-cookbook.md`](docs/rules-cookbook.md) — 30+ curated stack-agnostic rules for CLAUDE.md and golden-rules.md, organized by category: code quality, architecture, testing, workflow, context management, git discipline, harness engineering. Start with the "Recommended Starter Set" of 10 rules.
 
 **MCP workflow examples.** GitHub: "Open a PR with these changes, then check CI status." Playwright: "Write an end-to-end test for the login flow, run it, fix failures." Slack: "Check #deployments for the latest status." Google Docs: "Read the product spec and create PRD.md from it."
 

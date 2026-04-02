@@ -28,6 +28,39 @@
             "blocking": true
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo $TOOL_INPUT | jq -r '.file_path // .path // empty'); case \"$FILE\" in *.env|*.env.*|*credentials*|*.key|*.pem|*secret*) echo \"BLOCKED: $FILE is a protected file. Never write secrets to code.\" >&2 && exit 2;; esac",
+            "blocking": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"Branch: $(git branch --show-current 2>/dev/null)\" && echo \"Last 3 commits:\" && git log --oneline -3 2>/dev/null || true",
+            "blocking": false
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Reminders after compact: 1) Read CLAUDE.md for golden rules. 2) Check docs/progress.json for current task. 3) Run git status to see uncommitted work.'",
+            "blocking": false
+          }
+        ]
       }
     ],
     "PostToolUse": [

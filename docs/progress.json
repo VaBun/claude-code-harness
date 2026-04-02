@@ -1,5 +1,5 @@
 {
-  "current_task": "March 2026 feature update",
+  "current_task": "Hook and rules cookbooks",
   "status": "completed",
   "completed_steps": [
     "Created directory structure with three zones (project / .claude / .github)",
@@ -19,12 +19,20 @@
     "Created docs/capability-map.md (built-in CC vs harness tracking)",
     "Updated /update command to check capability-map for migrations",
     "Raised file count limit from 25 to 30",
-    "March 2026 feature update: +14 new features, +5 section updates, README now 18 topics"
+    "March 2026 feature update: +14 new features, +5 section updates, README now 18 topics",
+    "Renamed /catchup to /load for natural save/load pairing",
+    "Created docs/hook-cookbook.md: 25+ curated hook patterns (safety, quality, workflow, notifications, permissions, gotchas)",
+    "Created docs/rules-cookbook.md: 30+ curated golden rules (universal, CLAUDE.md quality, workflow, testing, context, git, harness)",
+    "Updated .claude/settings.json: added protected files hook, SessionStart context injection, PostCompact reminder (6 hooks total)",
+    "Updated harness-init SKILL.md: templates now deploy 6 hooks + universal golden rules section",
+    "Updated CLAUDE.md: 13 golden rules (added universal rules from cookbook), file limit raised to 35",
+    "Updated README.md: cookbook links in §2 and §19, instruction budget note in §1",
+    "Created ADR-004 (cookbooks as standalone docs, file limit to 35)"
   ],
   "next_steps": [
     "Verify GitHub Actions workflow triggers correctly",
     "Test harness-init skill by installing and running in a test project",
-    "Update harness-init templates with new hook events and cloud patterns"
+    "Update capability-map.md with new harness capabilities (cookbooks)"
   ],
   "blockers": [],
   "decisions_made": [
@@ -36,7 +44,9 @@
     "Conceptualization theory mapping: README as grammar, .claude files as alphabet",
     "harness-init deploys 5 generic commands; /update is repo-specific, not included in skill templates",
     "capability-map.md is a tracking document, not a second guide (preserves golden rule #2)",
-    "File count limit raised to 30 (was 25, repo organically grew)"
+    "File count limit raised to 35 (was 30, cookbooks are genuine additions, ADR-004)",
+    "Cookbooks as standalone docs linked from README, not inline (ADR-004)",
+    "Main project goal: harness-init skill with autodeploy is the primary deliverable"
   ],
-  "last_updated": "2026-03-27T04:00:00Z"
+  "last_updated": "2026-04-02T12:00:00Z"
 }

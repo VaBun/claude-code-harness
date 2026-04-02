@@ -19,12 +19,15 @@ Self-referential: every tool in this repo genuinely serves it.
 2. README.md is the single guide. No separate docs/guide/ directory.
 3. Each README section points to a live working file in the repo (except §19 "Patterns for Your Projects" — general-purpose techniques that can't be self-referential).
 4. No placeholder content. Every example is real and working.
-5. Keep total file count under 30.
+5. Keep total file count under 35.
 6. Log significant decisions in docs/decisions/ using ADR format.
 7. When agent makes a mistake → add a golden rule here.
 8. Run /save after every major change. Future sessions depend on it.
 9. All content in English.
 10. Commit messages: imperative mood, reference what changed and why.
+11. Before writing new code or content, check if it already exists. Search first.
+12. Make every change as simple as possible. Prefer deleting over adding.
+13. Only touch what is necessary for the current task. No "while I'm here" improvements.
 
 ## Current State
 See docs/progress.json for current task and status.
@@ -35,6 +38,8 @@ See docs/decisions/ for why things are the way they are.
 - `.claude/agents/` — subagents for review and web monitoring
 - `.claude/skills/harness-init/` — deploys harness to other projects (the "product")
 - `docs/` — reference materials, system state, decision log
+- `docs/hook-cookbook.md` — curated hook patterns (the "what to deploy" for hooks)
+- `docs/rules-cookbook.md` — curated golden rules (the "what to deploy" for rules)
 - `docs/capability-map.md` — built-in CC vs harness tracking (update via `/update`)
 - `docs/decisions/` — architecture decision records (the "why" behind choices)
 - `.github/workflows/` — automated monitoring via GitHub Actions
